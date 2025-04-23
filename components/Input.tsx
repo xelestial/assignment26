@@ -8,9 +8,10 @@ type InputProps = {
   type: string;
   label: string;
   Icon: ComponentType<SVGProps<SVGSVGElement>>;
+  errors: string[];
 };
 
-export default function Input({ name, type, label, Icon }: InputProps) {
+export default function Input({ name, type, label, Icon, errors }: InputProps) {
   const id = useId();
   return (
     <label htmlFor={id} className="block">
@@ -24,6 +25,7 @@ export default function Input({ name, type, label, Icon }: InputProps) {
           placeholder={label}
           className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div className='text-red-500'> { errors?.map((error, index)=> <span key={error+index}> {error} </span>)}</div>
       </div>
     </label>
   );
