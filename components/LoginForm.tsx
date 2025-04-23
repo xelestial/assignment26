@@ -30,12 +30,12 @@ export default function LoginForm() {
         type="submit"
         disabled={pending}
         className={`w-full py-2 rounded-full text-white transition ${
-          pending
-            ? 'bg-gray-400 cursor-not-allowed'
+          state?.success
+            ? 'bg-green-400 cursor-not-allowed'
             : 'bg-blue-500 hover:bg-blue-600'
         }`}
       >
-        {pending ? 'Logging in...' : 'Log in'}
+        { state?.success ? 'Login Success!' : "Log in"}
       </button>
     </form>
   ); 
