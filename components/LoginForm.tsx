@@ -6,16 +6,16 @@ import { onLoginAction } from '../app/login/actions'
 import Input from './Input';
 import { EnvelopeIcon, UserIcon, KeyIcon } from '@heroicons/react/24/outline';
 
+
+
 type FormState = {
   success: boolean;
   error?: string;
 };
 
+
 export default function LoginForm() {
-  const [state, formAction] = React.useActionState(onLoginAction, {
-    success: false,
-    error: undefined,
-  });
+  const [state, formAction] = React.useActionState(onLoginAction, null);
   const { pending } = useFormStatus();
 
   return (
@@ -23,10 +23,9 @@ export default function LoginForm() {
       action={formAction}
       className="w-full max-w-md p-6 bg-white rounded-lg shadow space-y-4 *: text-black"
     >
-      <Input name="email" type="email" label="Email" Icon={EnvelopeIcon} />
-      <Input name="username" type="text" label="Username" Icon={UserIcon} />
-      <Input name="password" type="password" label="Password" Icon={KeyIcon} />
-
+      <Input name="email" type="email" label="Email" Icon={EnvelopeIcon} errors={state?.fieldErrors?.email ?? []} />
+      <Input name="username" type="text" label="Username" Icon={UserIcon} errors={state?.fieldErrors?.username ?? []}/>
+      <Input name="password" type="password" label="Password" Icon={KeyIcon} errors={state?.fieldErrors?.password ?? []} />
       <button
         type="submit"
         disabled={pending}
@@ -38,13 +37,6 @@ export default function LoginForm() {
       >
         {pending ? 'Logging in...' : 'Log in'}
       </button>
-
-      {state.success && (
-        <p className="text-green-600 text-center">Login successful!</p>
-      )}
-      {state.error && (
-        <p className="text-red-600 text-center">{state.error}</p>
-      )}
     </form>
-  );
+  ); 
 }
