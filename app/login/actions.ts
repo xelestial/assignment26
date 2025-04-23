@@ -31,7 +31,7 @@ export async function onLoginAction(
   if (!result.success) {
     return result.error.flatten();
   } else {
-    return result.data
+    console.log(result.data)
   }
 }
   
