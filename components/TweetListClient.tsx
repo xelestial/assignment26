@@ -18,7 +18,7 @@ export function TweetListClient({ tweets }: { tweets: Tweet[] }) {
   return (
     <ul className="mt-6 space-y-4">
       {tweets.map(tweet => (
-        <li key={tweet.id} className="border p-4 rounded shadow flex justify-between items-start">
+        <li key={tweet.id} className="min-w-full border p-4 rounded-[12px] shadow flex justify-between items-start">
           <div>
             <p>{tweet.content}</p>
             <span className="text-sm text-gray-500 block mt-2">

@@ -15,7 +15,7 @@ export function AddTweet() {
       <textarea
         name="content"
         placeholder="What's up?"
-        className="w-full p-2 border rounded-[12px]"
+        className="min-w-[400px] p-4 border rounded-[12px]"
         disabled={pending}
       />
     {state?.error && <p className="text-red-500 text-sm">{state.error}</p>}
