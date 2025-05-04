@@ -3,9 +3,9 @@
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
-export async function toggleLike(tweetId: number, userId: number) {
+export async function toggleLike(tweetId: number, userId: number, path: string) {
   const existing = await prisma.like.findFirst({
-    where: { tweetId, userId },
+    where: { tweetId, userId }
   })
 
   if (existing) {
@@ -14,5 +14,5 @@ export async function toggleLike(tweetId: number, userId: number) {
     await prisma.like.create({ data: { tweetId, userId } })
   }
 
-  revalidatePath(`/tweets`)
+  revalidatePath(path)
 }

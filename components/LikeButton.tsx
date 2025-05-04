@@ -1,41 +1,40 @@
 'use client'
 
-import { useAppContext } from '@/app/context/AppContext'
-import { toggleLike } from '@/app/actions/toggleLike'
 import { useOptimistic, useTransition } from 'react'
+import { toggleLike } from '@/app/actions/toggleLike'
 
-type Props = {
+export function LikeButton({
+  tweetId,
+  userId,
+  initialLikesCount,
+  likedByCurrentUser,
+  refreshPath,
+}: {
   tweetId: number
-  likedByCurrentUser: boolean
+  userId: number
   initialLikesCount: number
+  likedByCurrentUser: boolean
   refreshPath: string
-}
-
-export function LikeButton({ tweetId, likedByCurrentUser, initialLikesCount, refreshPath }: Props) {
-  const { userId } = useAppContext()
+}) {
   const [isPending, startTransition] = useTransition()
-  const [optimisticState, toggleOptimistic] = useOptimistic(
-    { count: initialLikesCount, liked: likedByCurrentUser },
-    (prev) => ({
-      count: prev.count + (prev.liked ? -1 : 1),
-      liked: !prev.liked,
-    })
+
+  const [optimisticCount, addOptimisticLike] = useOptimistic(
+    initialLikesCount,
+    (state: number, liked: boolean) => liked ? state + 1 : state - 1
   )
-
-  const handleClick = () => {
-    if (!userId) return alert('로그인이 필요합니다')
-
-    toggleOptimistic(false)
-    startTransition(() => toggleLike(tweetId, userId))
-  }
 
   return (
     <button
-      onClick={handleClick}
       disabled={isPending}
-      className={`text-sm pointer-cursor ${optimisticState.liked ? 'text-red-500' : 'text-gray-400'} hover:underline disabled:opacity-50`}
+      className="text-sm text-blue-400 disabled:opacity-50"
+      onClick={() => {
+        startTransition(() => {
+          addOptimisticLike(!likedByCurrentUser)
+          toggleLike(tweetId, userId, refreshPath)
+        })
+      }}
     >
-      ❤️ {optimisticState.count}
+      ❤️ {optimisticCount} 좋아요
     </button>
   )
 }
