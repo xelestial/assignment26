@@ -3,6 +3,8 @@ import { getIronSession, SessionOptions } from 'iron-session';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 
+const SESSION_SECRET='Error: iron-session: Bad usage. Password must be at least 32 characters long.'
+
 export type SessionContent = {
   id?: number;
   username?: string;
@@ -10,7 +12,8 @@ export type SessionContent = {
 
 export const sessionOptions: SessionOptions = {
   cookieName: 'user',
-  password: process.env.SESSION_SECRET!,
+//   password: process.env.SESSION_SECRET!,
+   password: SESSION_SECRET,
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
   },
