@@ -45,7 +45,7 @@ export function AddTweet() {
         disabled={isPending}
         className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
       >
-        {isPending ? '업로드 중...' : '트윗하기'}
+        {isPending ? 'Uploading...' : 'Tweet!'}
       </button>
     </form>
   )

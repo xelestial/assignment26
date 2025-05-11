@@ -28,7 +28,7 @@ export function TweetDetailClient({ tweet }: { tweet: TweetWithRelations }) {
       <button
         onClick={() => {
           addOptimisticLike(undefined)
-          startTransition(() => addLike(tweet.id))
+          startTransition(() => addLike(tweet.id, 1))
         }}
         disabled={isPending}
         className="text-sm text-blue-600 hover:underline disabled:opacity-50"

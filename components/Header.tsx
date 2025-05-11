@@ -1,42 +1,33 @@
-'use client'
+// components/Header.tsx
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
+import { sessionOptions, SessionContent } from '@/lib/sessionOptions';
+import { onLogoutAction } from '@/app/actions/logout';
+import { prisma } from '@/lib/prisma';
 
-import { useState } from 'react'
-import { useAppContext } from '@/app/context/AppContext'
-import { loginOrCreateUser } from '@/app/actions/loginOrCreateUser'
+export  async function Header() {
+  const cookieStore = cookies();
+  // @ts-ignore
+  const session = await getIronSession<SessionContent>(cookieStore, sessionOptions);
 
-export function Header() {
-  const [inputName, setInputName] = useState('')
-  const { userId, name, setUser } = useAppContext()
-
-  const handleLogin = async () => {
-    if (!inputName.trim()) return
-    const user = await loginOrCreateUser(inputName.trim())
-    setUser(user.id, user.name)
-    console.log(user)
-  }
+  const user = session.id
+    ? await prisma.user.findUnique({
+        where: { id: session.id },
+        select: { username: true },
+      })
+    : null;
 
   return (
-    <header className="w-full p-4 bg-neutral-900 text-white flex justify-between items-center">
-      <h1 className="font-bold text-lg"> Nomad X </h1>
-      <div className="flex items-center gap-2 rounded">
-        <input
-          type="text"
-          value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
-          placeholder="이름 입력"
-          className="border px-2 py-1 w-[120px] rounded"
-        />
-        <button
-          onClick={handleLogin}
-          className="bg-blue-500 text-white px-3 py-1 rounded"
-          disabled={inputName.length < 2}   
-        >
-          로그인
-        </button>
-        {userId && name && (
-          <span className="text-sm text-gray-700"> {name} (ID: {userId})</span>
-        )}
-      </div>
+    <header className="p-4 bg-neutral-900 text-white flex justify-between items-center">
+      <h1 className="text-xl font-bold">Nomad X</h1>
+      {user && (
+        <form action={onLogoutAction}>
+          <span className="mr-3">Hi, {user.username}</span>
+          <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">
+            Logout
+          </button>
+        </form>
+      )}
     </header>
-  )
+  );
 }

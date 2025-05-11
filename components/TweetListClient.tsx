@@ -14,9 +14,9 @@ type Tweet = {
 
 export function TweetListClient({ userName }: { userName: string }) {
   const [tweets, setTweets] = useState<Tweet[]>([])
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
   const { userId } = useAppContext()
-
+  console.log(isPending)
   useEffect(() => {
     startTransition(async () => {
       try {

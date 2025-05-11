@@ -3,14 +3,14 @@ import { NextResponse } from 'next/server'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
-  const name = searchParams.get('name')
+  const username = searchParams.get('username')
 
-  if (!name) {
+  if (!username) {
     return NextResponse.json({ error: 'name is required' }, { status: 400 })
   }
 
   const user = await prisma.user.findUnique({
-    where: { name },
+    where: { username },
     include: {
       tweets: {
         orderBy: { createdAt: 'desc' },
