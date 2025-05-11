@@ -1,4 +1,3 @@
-// components/Header.tsx
 import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, SessionContent } from '@/lib/sessionOptions';
@@ -7,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 
 export  async function Header() {
   const cookieStore = cookies();
-  // @ts-ignore
+  // @ts-expect-error - iron-session types are not compatible with next/headers
   const session = await getIronSession<SessionContent>(cookieStore, sessionOptions);
 
   const user = session.id

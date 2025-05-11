@@ -26,7 +26,7 @@ export default function SignupForm() {
     if (state.success) {     
       router.push('/login');
     }
-  },[state.success])
+  },[state.success, router])
   return (
     <form
       action={formAction}

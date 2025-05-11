@@ -45,7 +45,7 @@ export async function signup(
     return {
       success: false,
       fieldErrors: {},
-      error: 'Username or email already exists',
+      error: err instanceof Error ? err.message : 'Unknown error',
     };
   }
 }

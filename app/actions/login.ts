@@ -41,15 +41,15 @@ export async function onLoginAction(
     };
   }
 
-  // ✅ Next.js 규칙을 지킨 세션 처리
+  
   const cookieStore = cookies();
-  // @ts-ignore
+  //@ts-expect-error - iron-session types are not compatible with next/headers
   const session = await getIronSession(cookieStore, sessionOptions);
-  // @ts-ignore
+  //@ts-expect-error - iron-session types are not compatible with next/headers
   session.id = user.id;
-  // @ts-ignore
+  //@ts-expect-error - iron-session types are not compatible with next/headers
   session.username = user.username;
   await session.save();
 
-  redirect('/profile'); // ✅ redirect 후 return 불필요 (stop execution)
+  redirect('/profile');
 }

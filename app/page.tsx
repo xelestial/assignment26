@@ -10,8 +10,4 @@ export default async function HomePage() {
   } else {
     redirect('/login')
   }
-    
-  
-  
-  
 }

@@ -18,7 +18,7 @@ export const sessionOptions: SessionOptions = {
 
 export async function getSession() {
   const cookieStore = cookies();
-  // @ts-ignore
+  // @ts-expect-error - iron-session types are not compatible with next/headers
   return await getIronSession<SessionContent>(cookieStore, sessionOptions);
 }
 
